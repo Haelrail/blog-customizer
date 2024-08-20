@@ -64,6 +64,8 @@ export const ArticleParamsForm = (props: ArticleData) => {
 		props.submitStyles();
 	};
 
+	// закрытие при клике вне формы
+
 	const formRef = useRef<HTMLElement>(null);
 
 	const handleClickOutOfForm = (event: MouseEvent) => {
@@ -74,18 +76,21 @@ export const ArticleParamsForm = (props: ArticleData) => {
 
 	useEffect(() => {
 		if(isOpen)
-			document.addEventListener('click', handleClickOutOfForm);
+			document.addEventListener('mousedown', handleClickOutOfForm);
 		else
-			document.removeEventListener('click', handleClickOutOfForm)
+			document.removeEventListener('mousedown', handleClickOutOfForm)
 		return () => {
-			document.removeEventListener('click', handleClickOutOfForm);
+			document.removeEventListener('mousedown', handleClickOutOfForm);
 			};
 	}, [isOpen]);
 
 	return (
 		<>
 			<ArrowButton onClick={handleOpenButtonClick}  isOpen={isOpen}/>
-			<aside className={`${styles.container} ${isOpen ? styles.container_open : ''}`} ref={formRef}>
+			<aside
+				className={`${styles.container} ${isOpen ? styles.container_open : ''}`}
+				ref={formRef}
+			>
 				<form className={styles.form} onSubmit={handleSubmitForm}>
 					<Select
 						selected = {props.fontType}
